@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="my-webapp" extends="struts-default">
+
+		<interceptors>
+			<interceptor name="my"
+				class="jp.ddo.zappey83.interceptor.MyInterceptor" />
+			<interceptor name="login"
+				class="jp.ddo.zappey83.interceptor.LoginInterceptor" />
+			<interceptor-stack name="myLoginStack">
+				<interceptor-ref name="login" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref name="myLoginStack" />
+
+		<global-results>
+			<result name="login">/WEB-INF/login.jsp</result>
+			<result name="login-success">/index.jsp</result>
+		</global-results>
+
+		<action name="Hello" class="jp.ddo.zappey83.action.Hello">
+			<result name="success">index.jsp</result>
+		</action>
+
+		<action name="Research" class="jp.ddo.zappey83.action.Research">
+			<result name="success">/WEB-INF/research.jsp</result>
+		</action>
+
+		<action name="ResearchConfirm" class="jp.ddo.zappey83.action.Research"
+			method="confirm">
+			<result name="success" type="chain">ResearchWithValidation</result>
+		</action>
+
+		<action name="ResearchWithValidation" class="jp.ddo.zappey83.action.ResearchWithValidation">
+			<result name="success">/WEB-INF/confirm.jsp</result>
+			<result name="input">/WEB-INF/research.jsp</result>
+		</action>
+
+		<action name="Login" class="jp.ddo.zappey83.action.Login">
+			<result name="success">/index.jsp</result>
+		</action>
+	</package>
+</struts>
